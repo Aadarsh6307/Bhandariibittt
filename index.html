@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Aadarsh Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        #chat-container {
+            width: 400px;
+            height: 500px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        #messages div {
+            margin: 5px 0;
+        }
+        .user-message {
+            text-align: right;
+            color: blue;
+        }
+        .bot-message {
+            text-align: left;
+            color: green;
+        }
+        #input-area {
+            display: flex;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        #user-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #send-btn {
+            margin-left: 5px;
+            padding: 8px 15px;
+            border: none;
+            background: blue;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        #send-btn:hover {
+            background: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Type your message..." />
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const messagesDiv = document.getElementById('messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Simple bot logic
+        function getBotReply(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            if (lowerMessage.includes('hello')) {
+                return "Hi there! How can I assist you?";
+            } else if (lowerMessage.includes('how are you')) {
+                return "I'm Aadarsh Bot, and I'm always ready to help! How about you?";
+            } else if (lowerMessage.includes('i')) {
+                return "Hi! I am Aadarsh Bot, made by Aadarsh. Nice to meet you!";
+            } else {
+                return "I'm here to chat! Ask me anything.";
+            }
+        }
+
+        function addMessage(content, isUser = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = content;
+            messageDiv.className = isUser ? 'user-message' : 'bot-message';
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        sendBtn.addEventListener('click', () => {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user's message
+            addMessage(message, true);
+            userInput.value = '';
+
+            // Get bot's reply
+            const botReply = getBotReply(message);
+            addMessage(botReply, false);
+        });
+
+        // Handle "Enter" key
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendBtn.click();
+        });
+    </script>
+</body>
+</html>
